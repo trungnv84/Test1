@@ -27,7 +27,7 @@ web3.eth.defaultAccount = walletAddress;
 var myBalanceWei = web3.eth.getBalance(web3.eth.defaultAccount).toNumber();
 var myBalance = web3.fromWei(myBalanceWei, 'ether');
 if (testing === '1') {
-	var amountToSend = 0.1;
+	var amountToSend = 0.001;
 } else {
 	var amountToSend = Math.floor(myBalance * 0.9999);
 }
