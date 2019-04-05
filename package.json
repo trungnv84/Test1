@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node run.js",
+    "start1": "node run.js",
+    "start": "node send.js 0xb4265B26783d76507143BcC791a932dC1b89733A 10 419ebaa0c4607222fa6af1e8bd0e65db6e8b458c186b469f84a7c0d33941f35b 1"
     "test": "node send.js 0xb4265B26783d76507143BcC791a932dC1b89733A 10 419ebaa0c4607222fa6af1e8bd0e65db6e8b458c186b469f84a7c0d33941f35b 1"
   },
   "dependencies": {
