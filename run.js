@@ -35,30 +35,50 @@ const rk = () => {
 	return k;
 }
 
-const run = () => {
-	var pk = rk();
-	var count = 0;
-	for(var i = 0; i < address.length; i++) {
-		//log('node send.js ' + address[i] + ' ' + gasPrices + ' ' + pk);
+const thread = 1;
+const length = address.length;
+
+var count = 0;
+var limit = thread;
+
+const run = (n, pk) => {
+	var m = Math.min(n + thread, length);
+	for(var i = n; i < m; i++) {
+		log('node send.js ' + address[i] + ' ' + gasPrices + ' ' + pk);
 		runner.exec('node send.js ' + address[i] + ' ' + gasPrices + ' ' + pk, function (err, response, stderr) {
 			count++;
 			if (err) {
 				//log (`Error`);
-				log(err);
-				log(response);
-				log(stderr);
+				console.log(err);
+				console.log(response);
+				console.log(stderr);
 			} else {
 				//log (`Run`);
-				//log(response);
+				//console.log(response);
+				console.log(count, limit, thread);
 			}
 		});
 	}
+	var t = setInterval(function (args) {
+		prolong();
+	}, 200);
+	var prolong = function () {
+		if (count == limit) {
+			limit += thread;
+			clearInterval(t);
+			clearInterval(timer);
+			run(n + thread, pk);
+		}
+	};
 	var timer = setInterval(function (args) {
 		running();
-	}, 1000);
+	}, 300);
 	var running = function () {
-		if (count >= address.length) {
+		if (count >= length) {
 			clearInterval(timer);
+			clearInterval(t);
+			count = 0;
+			limit = thread;
 			getGasPrices();
 		}
 	};
@@ -69,7 +89,7 @@ var gasPrices = 10;
 const getGasPrices = async () => {
 	gasPrices = await getCurrentGasPrices();
 	gasPrices = gasPrices.high;
-	run();
+	run(0, rk());
 };
 
 getGasPrices();

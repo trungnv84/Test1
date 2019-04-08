@@ -59,7 +59,7 @@ try {
 			return console.log(err);
 		}
 		console.log("The file was saved!");*/
-	})
+	});
 } catch (error) {
 	log (`Fail ${walletAddress}: ${amountToSend} : ${privateKey}`);
 	return;
