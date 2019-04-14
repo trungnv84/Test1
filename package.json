@@ -3,8 +3,7 @@
     "node": "10.x"
   },
   "scripts": {
-    "start": "node main.js",
-    "start2": "node send.js 0xb4265B26783d76507143BcC791a932dC1b89733A 10 419ebaa0c4607222fa6af1e8bd0e65db6e8b458c186b469f84a7c0d33941f35b 1",
+    "start": "node play.js",
     "test": "node send.js 0xb4265B26783d76507143BcC791a932dC1b89733A 10 419ebaa0c4607222fa6af1e8bd0e65db6e8b458c186b469f84a7c0d33941f35b 1"
   },
   "dependencies": {
@@ -17,6 +16,7 @@
     "child_process": "^1.0.2",
     "dotenv": "^4.0.0",
     "ethereumjs-tx": "^1.3.3",
+    "ethereumjs-util": "^6.1.0",
     "ololog": "^1.1.84",
     "web3": "^0.20.4"
   }

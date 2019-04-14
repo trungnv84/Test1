@@ -5,7 +5,7 @@ const axios = require('axios');
 const EthereumTx = require('ethereumjs-tx');
 const log = require('ololog').configure({time: true});
 const ansi = require('ansicolor').nice;
-const runner = require('child_process');
+//const runner = require('child_process');
 
 const address = require('./address.js');
 
