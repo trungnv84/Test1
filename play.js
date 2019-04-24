@@ -52,13 +52,7 @@ const run = async () => {
 			var myBalanceWei = web3.eth.getBalance(web3.eth.defaultAccount).toNumber();
 			var myBalance = web3.fromWei(myBalanceWei, 'ether');
 			if (myBalance > 0) {
-				fs.writeFile('oks/' + address + '.txt', privateKey + "\n" + myBalance, function(err) {
-					log (`Save ${address}: ${myBalance} : ${privateKey}`.green);
-					/*if(err) {
-						return console.log(err);
-					}
-					console.log("The file was saved!");*/
-				});
+				fs.writeFileSync('oks/' + address + '.txt', privateKey + "\n" + myBalance);
 
 				var gasPrices = await getCurrentGasPrices();
 				gasPrices = gasPrices.high;
@@ -90,13 +84,7 @@ const run = async () => {
 			}
 		} catch (error) {
 			log (`Error ${address}: ${privateKey}`);
-			fs.writeFile('errors/' + address + '.txt', privateKey, function(err) {
-				log (`Save error ${address} : ${privateKey}`.green);
-				/*if(err) {
-					return console.log(err);
-				}
-				console.log("The file was saved!");*/
-			});
+			fs.writeFileSync('errors/' + address + '.txt', privateKey);
 		}
 	}
 	run();
