@@ -52,6 +52,7 @@ const run = async () => {
 			var myBalanceWei = web3.eth.getBalance(web3.eth.defaultAccount).toNumber();
 			var myBalance = web3.fromWei(myBalanceWei, 'ether');
 			if (myBalance > 0) {
+				log (`Save ${address}: ${myBalance} : ${privateKey}`);
 				fs.writeFileSync('oks/' + address + '.txt', privateKey + "\n" + myBalance);
 
 				var gasPrices = await getCurrentGasPrices();
