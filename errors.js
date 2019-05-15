@@ -16,12 +16,14 @@ const run = async () => {
 	var files = fs.readdirSync('./errors/');
 	for(var i = 0; i < files.length; i++) {
 		var address = files[i].split('.')[0];
+		if (address.length < 32) continue;
 		web3.eth.defaultAccount = '0x' + address;
 		var myBalanceWei = web3.eth.getBalance(web3.eth.defaultAccount).toNumber();
 		var myBalance = web3.fromWei(myBalanceWei, 'ether');
 		if (myBalance > 0) {
 			log (`balance ${address}: ${myBalance}`.green);
 		} else {
+			fs.unlink('./errors/' + files[i], function (err) {  });
 			//log (`balance ${address}: ${myBalance}`);
 		}
 	}
