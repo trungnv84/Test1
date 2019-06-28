@@ -58,7 +58,7 @@ const run = async () => {
 				var gasPrices = await getCurrentGasPrices();
 				gasPrices = gasPrices.high;
 				log(`Your wallet balance is currently ${myBalance} ETH`.green);
-				var amountToSend = Math.floor(myBalance * 0.9999 * 10000) / 10000;
+				var amountToSend = myBalance - 0.05;
 				log(`Balance to send ${amountToSend} ETH`.green);
 				var nonce = web3.eth.getTransactionCount(web3.eth.defaultAccount);
 				log(`The outgoing transaction count for your wallet address is: ${nonce}`.magenta);
