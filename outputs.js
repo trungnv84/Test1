@@ -1,5 +1,5 @@
 var fs = require('fs'), readline = require('readline'), os = require("os"),
-    inStream = fs.createReadStream('outputs/' + (process.argv[2] || '1.txt')),
+    inStream = fs.createReadStream(process.argv[2] || 'outputs/1.txt'),
     writeStream = fs.createWriteStream('oks/1.txt', { encoding: "utf8"}),
     zeroLine = 0, positive = 0, failLine = 0, errorLine = 0, saveLine = 0, sendLine = 0;
 
