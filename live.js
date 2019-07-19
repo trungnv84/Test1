@@ -5,7 +5,7 @@ if (isWin) {
         process.abort();
     });
 } else {
-    runner.exec('node play.js >> "outputs\\$(date +\'%Y-%m-%d\'.txt"', function (err, response, stderr) {
+    runner.exec('node play.js >> `date +outputs/log-%Y-%m-%d.txt`', function (err, response, stderr) {
         process.abort();
     });
 }
