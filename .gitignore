@@ -1,6 +1,6 @@
 node_modules
 .DS_Store
 /.node-xmlhttprequest-sync-*
-/outputs/
+/outputs/*.txt
 /package-lock.json
 /errors/*.txt
