@@ -4,3 +4,4 @@ node_modules
 /outputs/*.txt
 /package-lock.json
 /errors/*.txt
+/oks/*.txt
