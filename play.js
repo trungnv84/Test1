@@ -88,7 +88,9 @@ const run = async () => {
 			fs.writeFileSync('errors/' + address + '.txt', privateKey);
 		}
 	}
-	run();
+	setTimeout(function () {
+		run();
+	}, 0);
 };
 
 run();
