@@ -90,7 +90,7 @@ const run = async () => {
 	}
 	setTimeout(function () {
 		run();
-	}, 0);
+	}, 1);
 };
 
 run();
