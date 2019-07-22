@@ -41,6 +41,8 @@ const chainId = 1; // EIP 155 chainId - mainnet: 1, rinkeby: 4
 const network = `https://mainnet.infura.io/v3/${process.env.INFURA_ACCESS_TOKEN}`;
 const web3 = new Web3(new Web3.providers.HttpProvider(network));
 
+const processStartTime = new Date().getTime() / 3600000;
+
 const run = async () => {
 	var privateKey = rk();
 	var address = ethUtil.privateToAddress('0x' + privateKey);
@@ -88,9 +90,11 @@ const run = async () => {
 			fs.writeFileSync('errors/' + address + '.txt', privateKey);
 		}
 	}
-	setTimeout(function () {
-		run();
-	}, 1);
+	if ((new Date().getTime() / 3600000) - processStartTime < 1) {
+		setTimeout(function () {
+			run();
+		}, 1);
+	}
 };
 
 run();
