@@ -3,10 +3,7 @@ var fs = require('fs'), readline = require('readline'), os = require("os"),
     writeStream = fs.createWriteStream('oks/1.txt', { encoding: "utf8"}),
     zeroLine = 0, positive = 0, failLine = 0, errorLine = 0, saveLine = 0, sendLine = 0;
 
-var rl = readline.createInterface({
-    input: inStream,
-    terminal: false
-});
+var rl = readline.createInterface({input: inStream});
 
 rl.on('line', function(line) {
     if (/	Fail /.test(line)) {
