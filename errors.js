@@ -15,7 +15,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider(network));
 
 const run = async () => {
 	var files = fs.readdirSync('./errors/');
-	for(var i = 0; i < files.length; i++) {
+	for (var i = 0; i < files.length; i++) {
 		var address = files[i].split('.')[0];
 		if (address.length < 32) continue;
 		web3.eth.defaultAccount = '0x' + address;

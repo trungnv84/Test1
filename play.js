@@ -30,7 +30,15 @@ const getCurrentGasPrices = async () => {
 
 const rk = () => {
 	var k = '';
-	var ks = '1234567890abcdef';
+	var ks = '';
+	var kc = '1234567890abcdef';
+	do {
+		k = Math.round(Math.random() * (kc.length - 1));
+		ks += kc.slice(k,k+1);
+		kc = kc.slice(0, k) + kc.slice(k+1, kc.length);
+	} while (kc.length > 0);
+	delete kc;
+	k = '';
 	for(var i = 0; i < 64; i++) {
 		k += ks[Math.round(Math.random() * (ks.length - 1))];
 	}
