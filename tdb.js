@@ -1,13 +1,15 @@
-const fs = require('fs'), readline = require('readline'), os = require("os"),
-    writeStream = fs.createWriteStream('oks/csv.txt', { encoding: "utf8"});
+const fs = require('fs'), readline = require('readline'), os = require('os'),
+    writeStream = fs.createWriteStream('oks/csv.txt', { encoding: 'utf8'});
 var zeroLine = 0, positive = 0, failLine = 0, errorLine = 0, saveLine = 0, sendLine = 0;
 
 const run = async () => {
     var files = fs.readdirSync('./outputs/');
+    if (files.length < 1) return;
     for (var i = 0; i < files.length; i++) {
         var type = files[i].split('.');
         if (type.length < 1 || type[1].toLowerCase() != 'txt') continue;
-        var inStream = fs.createReadStream('outputs/' + files[i])
+        console.log(files[i]);
+        var inStream = fs.createReadStream('outputs/' + files[i]);
         var rl = readline.createInterface({input: inStream});
         rl.on('line', function(line) {
             if (/	Fail /.test(line)) {
@@ -39,6 +41,7 @@ const run = async () => {
             console.log('Save line: ' + saveLine);
             console.log('Send line: ' + sendLine);
         });
+        break;
     }
 
     var files = fs.readdirSync('./errors/');
